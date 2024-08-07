@@ -490,7 +490,7 @@ def render_monthly_suc(data:pd.DataFrame):
     picbar.add_yaxis(
             '呼出人次',
             monthly['呼出人次'].values.tolist(),
-            label_opts=opts.LabelOpts(is_show=True,position='right'),
+            label_opts=opts.LabelOpts(is_show=False),
             symbol_size=15,symbol_repeat='fixed',is_symbol_clip=True,symbol=SymbolType.DIAMOND,
             symbol_offset=[0,10]
         )
