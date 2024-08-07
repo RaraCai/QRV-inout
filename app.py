@@ -523,7 +523,7 @@ def render_fail_detail(data:pd.DataFrame):
     if len(data)==0:
         return
     pie=(
-        Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.38}px',height=f'{HEIGHT*0.35}px'))
+        Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.35}px'))
         .add(
             '',[list(z) for z in zip(data.index.tolist(),data['人次'].values.tolist())],
             radius=['40%','75%'],
@@ -535,7 +535,7 @@ def render_fail_detail(data:pd.DataFrame):
         )
     )
 
-    components.html(pie.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.38)
+    components.html(pie.render_embed(),width=WIDTH*0.35,height=HEIGHT*0.38)
 
 # 成功详情-重呼详情
 def render_suc_detail(data:pd.DataFrame):
@@ -543,7 +543,7 @@ def render_suc_detail(data:pd.DataFrame):
     if len(data)==0:
         return
 
-    bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.38}px',height=f'{HEIGHT*0.4}px')).add_xaxis(data.index.tolist())
+    bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.4}px')).add_xaxis(data.index.tolist())
     bar.width='680px'
     bar.height='360px'
     bar.add_yaxis('一次成功',data['一次成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
@@ -561,7 +561,7 @@ def render_suc_detail(data:pd.DataFrame):
         yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=20))
     )
     
-    components.html(bar.render_embed(),width=WIDTH*0.38,height=HEIGHT*0.4)
+    components.html(bar.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.4)
 
 # 回复详情=按键回复内容分类
 def render_reply_classify(data:pd.DataFrame):
