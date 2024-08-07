@@ -11,7 +11,7 @@ import json
 
 # 确保屏幕自适应
 #import win32api
-WIDTH=1080
+WIDTH=1200
 HEIGHT=960
 
 
