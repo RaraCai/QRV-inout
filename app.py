@@ -543,7 +543,7 @@ def render_suc_detail(data:pd.DataFrame):
     if len(data)==0:
         return
 
-    bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.25}px',height=f'{HEIGHT*0.4}px')).add_xaxis(data.index.tolist())
+    bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.4}px',height=f'{HEIGHT*0.4}px')).add_xaxis(data.index.tolist())
     bar.width='680px'
     bar.height='360px'
     bar.add_yaxis('一次成功',data['一次成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
@@ -561,7 +561,7 @@ def render_suc_detail(data:pd.DataFrame):
         yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=20))
     )
     
-    components.html(bar.render_embed(),width=WIDTH*0.3,height=HEIGHT*0.4)
+    components.html(bar.render_embed(),width=WIDTH*0.5,height=HEIGHT*0.4)
 
 # 回复详情=按键回复内容分类
 def render_reply_classify(data:pd.DataFrame):
@@ -699,7 +699,7 @@ def render_dau(data:pd.DataFrame):
                 subset=['总计'],
                 cmap='Greens'
             ),
-            width=800
+            width=800,height=HEIGHT*0.5
         )
     with col2:
         line=(
@@ -719,7 +719,7 @@ def render_dau(data:pd.DataFrame):
             )
         )
         # 组合绘图
-        components.html(line.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.35)
+        components.html(line.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.5)
 
 # -----------------------------------------------------------------------------------
 # 页面配置
@@ -727,7 +727,7 @@ st.set_page_config(page_title="QRV呼出分析", layout="wide")
 st.title("QRV呼出分析")
 
 # 文件上传入口
-files=st.file_uploader(accept_multiple_files=True,type={'xlsx'},label='上传各试点呼出数据文件(.xlsx)，可同时上传多个')
+files=st.file_uploader(accept_multiple_files=True,type={'xlsx'},label='上传各试点呼出数据文件,可同时上传多个,若解析失败请刷新重试')
 if len(files):
     df_input=[]
     for f in files:df_input.append(pd.read_excel(f))
