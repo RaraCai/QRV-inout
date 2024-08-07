@@ -704,8 +704,8 @@ def render_dau(data:pd.DataFrame):
         Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.4}px',height=f'{HEIGHT*0.4}px'))
             .add_xaxis(group.index.astype('str').tolist())
             .add_yaxis('明楼',group['明楼'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
-            .add_yaxis('南码头社区卫生服务中心',group['南码头社区卫生服务中心'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
-            .add_yaxis('北蔡社区卫生服务中心',group['北蔡社区卫生服务中心'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
+            .add_yaxis('南码头',group['南码头社区卫生服务中心'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
+            .add_yaxis('北蔡',group['北蔡社区卫生服务中心'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
             .set_global_opts(
                 tooltip_opts=opts.TooltipOpts(
                     trigger='axis',
@@ -713,7 +713,7 @@ def render_dau(data:pd.DataFrame):
                 ),
                 datazoom_opts=opts.DataZoomOpts(),
                 title_opts=opts.TitleOpts(title='各试点DAU统计'),
-                legend_opts=opts.LegendOpts(pos_bottom='top')
+                legend_opts=opts.LegendOpts()
             )
         )
         # 组合绘图
