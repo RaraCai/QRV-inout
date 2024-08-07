@@ -8,10 +8,10 @@ from pyecharts.globals import SymbolType,ThemeType
 from datetime import datetime,date,timedelta
 from collections import Counter
 import json
-import tkinter as tk 
+import _tkinter
 
 # 确保屏幕自适应
-ROOT=tk.Tk()
+ROOT=_tkinter.Tk()
 WIDTH=ROOT.winfo_screenwidth()
 HEIGHT=ROOT.winfo_screenheight()
 
