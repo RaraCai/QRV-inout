@@ -789,7 +789,7 @@ if len(files):
         suc,fail=query_recall_reason(data,freq2)
         col_suc,col_fail=st.columns(2)
         with col_suc:
-            with st.container():
+            with st.container(border=True):
                 st.subheader("成功统计")
                 st.caption('单击列名查看升序或降序结果')
                 recall_rate=[float(rate.strip('%')) for rate in total['重呼率']]
@@ -805,7 +805,7 @@ if len(files):
             
 
         with col_fail:
-            with st.container():
+            with st.container(border=True):
                 st.subheader('失败统计')
                 st.caption('单击列名查看升序或降序结果')
                 fail_detail={
@@ -820,7 +820,7 @@ if len(files):
 
     # 受种者回复详情
     st.header('受种者详情')
-    container_reply=st.container()
+    container_reply=st.container(border=True)
     with container_reply:
         freq3=render_freq_selectbox('reply')
         # 1，2，3轮回复人次及占比
