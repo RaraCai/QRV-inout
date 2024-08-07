@@ -544,8 +544,6 @@ def render_suc_detail(data:pd.DataFrame):
         return
 
     bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.4}px')).add_xaxis(data.index.tolist())
-    bar.width='680px'
-    bar.height='360px'
     bar.add_yaxis('一次成功',data['一次成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
     bar.add_yaxis('一次重呼成功',data['一次重呼成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
     bar.add_yaxis('两次重呼成功',data['两次重呼成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
