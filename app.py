@@ -739,7 +739,7 @@ if len(files):
 
     # 数据总览
     st.header("数据总览",help="QRV系统呼出情况基本数据")
-    container_general=st.container()
+    container_general=st.container(border=True)
     with container_general:
         # 频度选择
         freq1=render_freq_selectbox('general')
@@ -760,7 +760,7 @@ if len(files):
         freq2=render_freq_selectbox('detail')
 
         # 【变化曲线】板块
-        with st.container():
+        with st.container(border=True):
             st.subheader("变化曲线")
             # 2个子页面
             tab_calls,tab_duration=st.tabs(["人次","时长"])
@@ -776,7 +776,7 @@ if len(files):
                     st.table(query_task_fig(data,freq2))
 
         # 【数据特征】板块
-        with st.container():
+        with st.container(border=True):
             st.subheader("月度数据横向比较")
             col1,col2=st.columns([1.6,1])
             with col1:
@@ -837,6 +837,6 @@ if len(files):
 
     # 试点数据详情
     st.header('试点用户粘性统计')
-    with st.container():
+    with st.container(border=True):
         dau_data=data_filtering('range2',filter_org=False)
         render_dau(dau_data)
