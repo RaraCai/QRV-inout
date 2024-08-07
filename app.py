@@ -10,9 +10,9 @@ from collections import Counter
 import json
 
 # 确保屏幕自适应
-import win32api
-WIDTH=win32api.GetSystemMetrics(0)
-HEIGHT=win32api.GetSystemMetrics(1)
+#import win32api
+WIDTH=1080
+HEIGHT=960
 
 
 # ------------------------------------数据筛选----------------------------------------
@@ -740,7 +740,7 @@ if len(files):
 
     # 数据总览
     st.header("数据总览",help="QRV系统呼出情况基本数据")
-    container_general=st.container(border=True)
+    container_general=st.container()
     with container_general:
         # 频度选择
         freq1=render_freq_selectbox('general')
@@ -755,13 +755,13 @@ if len(files):
 
     # 呼出详情
     st.header("呼出详情")
-    container_details=st.container(border=True)
+    container_details=st.container()
     with container_details:
         # 频度选择
         freq2=render_freq_selectbox('detail')
 
         # 【变化曲线】板块
-        with st.container(border=True):
+        with st.container():
             st.subheader("变化曲线")
             # 2个子页面
             tab_calls,tab_duration=st.tabs(["人次","时长"])
@@ -777,7 +777,7 @@ if len(files):
                     st.table(query_task_fig(data,freq2))
 
         # 【数据特征】板块
-        with st.container(border=True):
+        with st.container():
             st.subheader("月度数据横向比较")
             col1,col2=st.columns([1.6,1])
             with col1:
@@ -790,7 +790,7 @@ if len(files):
         suc,fail=query_recall_reason(data,freq2)
         col_suc,col_fail=st.columns(2)
         with col_suc:
-            with st.container(border=True):
+            with st.container():
                 st.subheader("成功统计")
                 st.caption('单击列名查看升序或降序结果')
                 recall_rate=[float(rate.strip('%')) for rate in total['重呼率']]
@@ -806,7 +806,7 @@ if len(files):
             
 
         with col_fail:
-            with st.container(border=True):
+            with st.container():
                 st.subheader('失败统计')
                 st.caption('单击列名查看升序或降序结果')
                 fail_detail={
@@ -821,7 +821,7 @@ if len(files):
 
     # 受种者回复详情
     st.header('受种者详情')
-    container_reply=st.container(border=True)
+    container_reply=st.container()
     with container_reply:
         freq3=render_freq_selectbox('reply')
         # 1，2，3轮回复人次及占比
@@ -838,6 +838,6 @@ if len(files):
 
     # 试点数据详情
     st.header('试点用户粘性统计')
-    with st.container(border=True):
+    with st.container():
         dau_data=data_filtering('range2',filter_org=False)
         render_dau(dau_data)
