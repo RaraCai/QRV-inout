@@ -697,7 +697,7 @@ def render_dau(data:pd.DataFrame):
                 subset=['总计'],
                 cmap='Greens'
             ),
-            width=800,height=HEIGHT*0.5
+            width=800,height=int(HEIGHT*0.5)
         )
     with col2:
         line=(
