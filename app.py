@@ -697,11 +697,11 @@ def render_dau(data:pd.DataFrame):
                 subset=['总计'],
                 cmap='Greens'
             ),
-            width=800,height=int(HEIGHT*0.4)
+            width=800,height=int(HEIGHT*0.3)
         )
     with col2:
         line=(
-        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.4}px',height=f'{HEIGHT*0.4}px'))
+        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.4}px',height=f'{HEIGHT*0.3}px'))
             .add_xaxis(group.index.astype('str').tolist())
             .add_yaxis('明楼',group['明楼'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
             .add_yaxis('南码头',group['南码头社区卫生服务中心'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
@@ -717,7 +717,7 @@ def render_dau(data:pd.DataFrame):
             )
         )
         # 组合绘图
-        components.html(line.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.5)
+        components.html(line.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.3)
 
 # -----------------------------------------------------------------------------------
 # 页面配置
