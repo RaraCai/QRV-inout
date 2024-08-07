@@ -9,12 +9,6 @@ from datetime import datetime,date,timedelta
 from collections import Counter
 import json
 
-
-
-
-
-
-
 # ------------------------------------数据筛选----------------------------------------
 # 依据机构和任意时间范围筛选数据入口
 def data_filtering(date_key,filter_org=True,filter_date=True):
@@ -727,11 +721,13 @@ st.set_page_config(page_title="QRV呼出分析", layout="wide")
 st.title("QRV呼出分析")
 
 # 文件上传入口
-file=st.file_uploader('点击按钮上传呼出数据文件',type={'xlsx'})
-if file is not None:
-    df=pd.read_excel(file)
+files=st.file_uploader(accept_multiple_files=True,type={'xlsx'},label='上传各试点呼出数据文件(.xlsx)，可同时上传多个')
+if len(files):
+    df_input=[]
+    for f in files:df_input.append(pd.read_excel(f))
+    # 合并文件
+    df=pd.concat(df_input,ignore_index=True)
     df['呼出开始时间']=pd.to_datetime(df['呼出开始时间'])
-
     # 按日期范围筛选数据入口
     data=data_filtering('range1')
 
