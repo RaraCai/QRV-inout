@@ -8,6 +8,13 @@ from pyecharts.globals import SymbolType,ThemeType
 from datetime import datetime,date,timedelta
 from collections import Counter
 import json
+import tkinter as tk 
+
+# 确保屏幕自适应
+ROOT=tk.Tk()
+WIDTH=ROOT.winfo_screenwidth()
+HEIGHT=ROOT.winfo_screenheight()
+
 
 # ------------------------------------数据筛选----------------------------------------
 # 依据机构和任意时间范围筛选数据入口
@@ -309,7 +316,7 @@ def render_calls_detail(data:pd.DataFrame):
 
     # 柱形图
     bar=(
-        Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='1400px',height='380px'))
+        Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.8}px',height=f'{HEIGHT*0.4}px'))
         .add_xaxis(data.index.astype('str').tolist())
         .add_yaxis('呼出总数',data['呼出总数'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
         .add_yaxis('呼出成功',data['呼出成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
@@ -323,7 +330,7 @@ def render_calls_detail(data:pd.DataFrame):
     )
     # 条形图
     line=(
-        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='1400px',height='380px'))
+        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.8}px',height=f'{HEIGHT*0.4}px'))
         .add_xaxis(data.index.astype('str').tolist())
         .extend_axis(yaxis=opts.AxisOpts(type_='value',position='right',name='百分比'))
         .add_yaxis('成功率',show_suc_rate,label_opts=opts.LabelOpts(is_show=False),yaxis_index=1,color='green')
@@ -340,14 +347,14 @@ def render_calls_detail(data:pd.DataFrame):
     )
     # 组合绘图
     grid_html=line.overlap(bar)
-    components.html(grid_html.render_embed(),width=1600,height=400)
+    components.html(grid_html.render_embed(),width=WIDTH*0.8,height=HEIGHT*0.4)
 
 # 呼出详情-时长板块
 def render_duration_detail(data:pd.DataFrame):
     if len(data)==0:
         return
     bar=(
-        Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='500px',height='400px'))
+        Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.3}px'))
         .add_xaxis(data.index.astype('str').tolist())
         .add_yaxis('通话平均时长',data['通话平均时长'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
         .set_global_opts(
@@ -358,7 +365,7 @@ def render_duration_detail(data:pd.DataFrame):
         )
     )
     line=(
-        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='500px',height='400px'))
+        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.3}px'))
         .add_xaxis(data.index.astype('str').tolist())
         .add_yaxis('通话总时长',data['通话总时长'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
         .set_global_opts(
@@ -372,14 +379,14 @@ def render_duration_detail(data:pd.DataFrame):
         )
     )
     # 组合绘图
-    components.html(line.overlap(bar).render_embed(),width=800,height=450)
+    components.html(line.overlap(bar).render_embed(),width=WIDTH*0.3,height=HEIGHT*0.3)
 
 # 呼出详情-按不同任务类型分类
 def render_task_detail(task:pd.DataFrame):
     if len(data)==0:
         return
     bar=(
-        Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='500px',height='400px'))
+        Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.3}px'))
         .add_xaxis(task.index.astype('str').tolist())
         .add_yaxis('通话总时长',task['通话总时长'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
         .reversal_axis()
@@ -392,7 +399,7 @@ def render_task_detail(task:pd.DataFrame):
             legend_opts=opts.LegendOpts()
         )
     )
-    components.html(bar.render_embed(),width=800,height=450)
+    components.html(bar.render_embed(),width=WIDTH*0.3,height=HEIGHT*0.3)
 
 # 月度数据-时段统计和疫苗分类
 def render_monthly(data:pd.DataFrame):
@@ -446,12 +453,12 @@ def render_monthly(data:pd.DataFrame):
                 table=hourly_df.style.format(style).background_gradient(subset=['计数'],cmap='Greens').highlight_max(subset=['呼出成功率'],props='background-color:pink')
                 st.write(f'{month_val}月呼出时段统计')
                 st.caption('单击列名查看升序或降序结果')
-                st.dataframe(table,width=360,height=250)
+                st.dataframe(table,width=int(WIDTH*0.3),height=int(HEIGHT*0.2))
 
         with right:
             if len(vaccine_df):
-                components.html(
-                    (Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,height='320px',width='460px'))
+                pie=(
+                    Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.3}px'))
                         .add(
                             '',[list(z) for z in zip(vaccine_df.index.tolist(),vaccine_df['数量'].values.tolist())],
                             radius=['40%','75%'],
@@ -460,9 +467,9 @@ def render_monthly(data:pd.DataFrame):
                             legend_opts=opts.LegendOpts(type_='scroll',pos_top='bottom'),
                             title_opts=opts.TitleOpts(title=f'{month_val}月呼出疫苗分类',subtitle=f'总计：{vaccine_df.sum().values}人次'),
                         )
-                    ).render_embed(),
-                    height=325,width=500
-                )
+                    )
+                components.html(pie.render_embed(),width=WIDTH*0.3,height=HEIGHT*0.3)
+                
 
 
 # 月度呼出人次与成功率
@@ -479,7 +486,7 @@ def render_monthly_suc(data:pd.DataFrame):
     monthly.index=monthly.index.strftime('%Y-%m')
     
     show_suc_rate=[float(rate.strip('%')) for rate in monthly['成功率']]
-    picbar=PictorialBar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,height='390px',width='550px'))
+    picbar=PictorialBar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.3}px',height=f'{HEIGHT*0.4}px'))
     picbar.add_xaxis(monthly.index.astype('str').tolist())
     picbar.add_yaxis(
             '呼出人次',
@@ -506,7 +513,7 @@ def render_monthly_suc(data:pd.DataFrame):
             legend_opts=opts.LegendOpts(pos_top='bottom')
         )
     
-    components.html(picbar.render_embed(),width=550,height=400)
+    components.html(picbar.render_embed(),width=WIDTH*0.3,height=HEIGHT*0.4)
     
 
 
@@ -517,7 +524,7 @@ def render_fail_detail(data:pd.DataFrame):
     if len(data)==0:
         return
     pie=(
-        Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,height='380px',width='700px'))
+        Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.38}px',height=f'{HEIGHT*0.35}px'))
         .add(
             '',[list(z) for z in zip(data.index.tolist(),data['人次'].values.tolist())],
             radius=['40%','75%'],
@@ -529,7 +536,7 @@ def render_fail_detail(data:pd.DataFrame):
         )
     )
 
-    components.html(pie.render_embed(),height=380,width=800)
+    components.html(pie.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.38)
 
 # 成功详情-重呼详情
 def render_suc_detail(data:pd.DataFrame):
@@ -537,7 +544,7 @@ def render_suc_detail(data:pd.DataFrame):
     if len(data)==0:
         return
 
-    bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,height='430px')).add_xaxis(data.index.tolist())
+    bar=Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.38}px',height=f'{HEIGHT*0.4}px')).add_xaxis(data.index.tolist())
     bar.width='680px'
     bar.height='360px'
     bar.add_yaxis('一次成功',data['一次成功'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
@@ -555,7 +562,7 @@ def render_suc_detail(data:pd.DataFrame):
         yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=20))
     )
     
-    components.html(bar.render_embed(),height=430)
+    components.html(bar.render_embed(),width=WIDTH*0.38,height=HEIGHT*0.4)
 
 # 回复详情=按键回复内容分类
 def render_reply_classify(data:pd.DataFrame):
@@ -582,7 +589,7 @@ def render_reply_classify(data:pd.DataFrame):
     text_counts = Counter(texts)
     # 绘图
     pie=(
-        Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='700px',height='300px'))
+        Pie(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.38}px',height=f'{HEIGHT*0.35}px'))
         .add(
             '',[list(z) for z in zip(text_counts.keys(),text_counts.values())],
             radius=['40%','75%'],
@@ -593,7 +600,7 @@ def render_reply_classify(data:pd.DataFrame):
             title_opts=opts.TitleOpts(title='回复内容分类'),
         )
     )
-    components.html(pie.render_embed(),height=300,width=800)
+    components.html(pie.render_embed(),width=WIDTH*0.4,height=HEIGHT*0.38)
     with st.expander('详细数据'):
         details=pd.DataFrame.from_dict(text_counts,orient='index').reset_index()
         details.columns=['回复内容','人次']
@@ -697,7 +704,7 @@ def render_dau(data:pd.DataFrame):
         )
     with col2:
         line=(
-        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width='750px',height='300px'))
+        Line(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND,width=f'{WIDTH*0.45}px',height=f'{HEIGHT*0.3}px'))
             .add_xaxis(group.index.astype('str').tolist())
             .add_yaxis('明楼',group['明楼'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
             .add_yaxis('南码头社区卫生服务中心',group['南码头社区卫生服务中心'].values.tolist(),label_opts=opts.LabelOpts(is_show=False))
@@ -713,7 +720,7 @@ def render_dau(data:pd.DataFrame):
             )
         )
         # 组合绘图
-        components.html(line.render_embed(),width=800,height=310)
+        components.html(line.render_embed(),width=WIDTH*0.5,height=HEIGHT*0.35)
 
 # -----------------------------------------------------------------------------------
 # 页面配置
@@ -728,6 +735,7 @@ if len(files):
     # 合并文件
     df=pd.concat(df_input,ignore_index=True)
     df['呼出开始时间']=pd.to_datetime(df['呼出开始时间'])
+
     # 按日期范围筛选数据入口
     data=data_filtering('range1')
 
