@@ -722,6 +722,105 @@ def render_dau(data:pd.DataFrame):
 # -----------------------------------------------------------------------------------
 # 页面配置
 st.set_page_config(page_title="QRV呼出分析", layout="wide")
+# 加载CSS
+st.markdown(f'''
+    <style>
+        .metric-container {
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            height: 140px;
+            padding: 25px 20px 10px;
+            border-radius: 5px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            font-size: 28px !important;
+            font-weight: bold !important;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            padding-top: 20px;
+        
+        }
+        .subheader {
+            font-size: 24px !important;
+            font-weight: bold !important;
+        }
+        .icon-container {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white; /* Circle color set to white */
+            border: 2px solid #DADADA;  /* Adding border to make it more visible */
+            margin-left: 10px;
+        }
+        .icon {
+            font-size: 15px;
+            font-weight: bold;
+            color: #DADADA; /* Exclamation mark color */
+        }
+        .data-title{
+            display: flex;
+            /*justify-content: space-between;*/
+            align-items: center;
+        }
+        .selection-box{
+            display: flex;
+            margin-top: -30px;
+        }
+        .topic{
+            width: 1300px;
+            height: 140px;
+            display: flex;!important;
+            flex-direction: row;
+            justify-content: space-around;
+            margin: 20px 0 30px;
+        }
+        .metric{
+            line-height: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        
+            span:first-child{
+                font-size: 18px;
+            }
+            .metric-value{
+                display: flex;
+                justify-content: space-between;
+                /*align-content: center;*/
+                span:first-child{
+                    font-size: 33px;
+                    font-weight: bold;
+                }
+                span:last-child{
+                    font-weight: bold;
+                    /*color: #DADADA;*/
+                }
+                .detail{
+                    padding-top: 6px;
+                    margin-left: 50px;
+                    /*line-height: 45px;*/
+                }
+            }
+        }
+        .title-font{
+           font-size: 1.5rem;
+        }
+        .st-emotion-cache-1kyxreq.e115fcil2{
+             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1)!important;
+        }
+        .echarts-for-react{
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1)!important;
+        }
+    </style>
+''',unsafe_allow_html=True)
+    
 st.title("QRV呼出分析")
 
 # 文件上传入口
